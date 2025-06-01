@@ -1,0 +1,19 @@
+Parameter,Wert,Einheit
+Kondensatoren,4,Stück
+Kapazität pro Kondensator,2200,µF
+Spannung,350,V
+Gespeicherte Energie,539.0,J
+Spulenwindungen,300,
+Spulenlänge,5.0,cm
+Spulenradius,1.0,cm
+Spitzenstrom,734.17,A
+Magnetische Feldstärke,5.5355,T
+Projektilmaterial,Stahl,
+Projektildurchmesser,16,mm
+Projektillänge,20,mm
+Projektilmasse,10,g
+Kraft auf Projektil,1961060.39,N
+Beschleunigung,196106039.09,m/s²
+Endgeschwindigkeit,4428.39,m/s
+Projektilenergie,98053.02,J
+Energieeffizienz,18191.65,%

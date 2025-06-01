@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coilgun-Rechner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <h1>Coilgun-Rechner</h1>
+            <p>Berechnung von Parametern für elektromagnetische Projektilbeschleuniger</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="grid-layout">
+            <section class="input-section card">
+                <div class="card__header">
+                    <h2>Parameter eingeben</h2>
+                </div>
+                <div class="card__body">
+                    <form id="coilgun-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="capacitors" class="form-label">Anzahl der Kondensatoren</label>
+                                <input type="number" class="form-control" id="capacitors" value="4" min="1" max="20">
+                            </div>
+                            <div class="form-group">
+                                <label for="capacitance" class="form-label">Kapazität (µF)</label>
+                                <input type="number" class="form-control" id="capacitance" value="2200" min="100" max="10000">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="voltage" class="form-label">Spannung (V)</label>
+                            <input type="range" class="form-control slider" id="voltage" value="350" min="50" max="500" step="10">
+                            <div class="slider-value"><span id="voltage-value">350</span> V</div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="turns" class="form-label">Spulenwindungen</label>
+                                <input type="number" class="form-control" id="turns" value="300" min="10" max="1000">
+                            </div>
+                            <div class="form-group">
+                                <label for="resistance" class="form-label">Spulenwiderstand (Ohm)</label>
+                                <input type="number" class="form-control" id="resistance" value="0.5" min="0.1" max="10" step="0.1">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="coil-length" class="form-label">Spulenlänge (cm)</label>
+                                <input type="number" class="form-control" id="coil-length" value="5" min="1" max="20" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label for="coil-diameter" class="form-label">Spulendurchmesser (cm)</label>
+                                <input type="number" class="form-control" id="coil-diameter" value="2" min="0.5" max="10" step="0.1">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="projectile-mass" class="form-label">Projektilmasse (g)</label>
+                                <input type="number" class="form-control" id="projectile-mass" value="10" min="1" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="material" class="form-label">Projektilmaterial</label>
+                                <select class="form-control" id="material">
+                                    <option value="Stahl">Stahl</option>
+                                    <option value="Eisen">Eisen</option>
+                                    <option value="Nickel">Nickel</option>
+                                    <option value="Kobalt">Kobalt</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-8">
+                            <button type="button" class="btn btn--primary" id="calc-button">Berechnen</button>
+                            <button type="button" class="btn btn--secondary" id="reset-button">Zurücksetzen</button>
+                        </div>
+
+                        <div class="form-group mt-8">
+                            <label for="preset" class="form-label">Vordefinierte Konfigurationen</label>
+                            <select class="form-control" id="preset">
+                                <option value="">-- Bitte wählen --</option>
+                                <option value="preset1">Kleine Testkonstruktion</option>
+                                <option value="preset2">Mittelgroße Coilgun</option>
+                                <option value="preset3">Leistungsstarke Version</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section class="results-section card">
+                <div class="card__header">
+                    <h2>Berechnungsergebnisse</h2>
+                </div>
+                <div class="card__body">
+                    <div class="results-grid">
+                        <div class="result-item">
+                            <span class="result-label">Gespeicherte Energie:</span>
+                            <span id="energy" class="result-value">0 J</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Spitzenstrom:</span>
+                            <span id="peak-current" class="result-value">0 A</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Magnetische Feldstärke:</span>
+                            <span id="magnetic-field" class="result-value">0 T</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Kraft auf Projektil:</span>
+                            <span id="force" class="result-value">0 N</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Beschleunigung:</span>
+                            <span id="acceleration" class="result-value">0 m/s²</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Theoretische Endgeschwindigkeit:</span>
+                            <span id="velocity" class="result-value">0 m/s</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Energieeffizienz:</span>
+                            <span id="efficiency" class="result-value">0 %</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="chart-section card">
+                <div class="card__header">
+                    <h2>Geschwindigkeit vs. Spannung</h2>
+                </div>
+                <div class="card__body">
+                    <div class="chart-container">
+                        <canvas id="velocity-chart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section class="safety-section card">
+                <div class="card__header">
+                    <h2>Sicherheitshinweise</h2>
+                </div>
+                <div class="card__body">
+                    <ul class="safety-list" id="safety-warnings">
+                        <!-- Sicherheitshinweise werden dynamisch eingefügt -->
+                    </ul>
+                </div>
+            </section>
+
+            <section class="presets-table-section card">
+                <div class="card__header">
+                    <h2>Empfohlene Startwerte</h2>
+                </div>
+                <div class="card__body">
+                    <div class="table-container">
+                        <table class="presets-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Kondensatoren</th>
+                                    <th>Kapazität (µF)</th>
+                                    <th>Spannung (V)</th>
+                                    <th>Windungen</th>
+                                    <th>Länge (cm)</th>
+                                    <th>Durchmesser (cm)</th>
+                                    <th>Masse (g)</th>
+                                    <th>Material</th>
+                                </tr>
+                            </thead>
+                            <tbody id="presets-table-body">
+                                <!-- Tabellendaten werden dynamisch eingefügt -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section class="schematic-section card">
+                <div class="card__header">
+                    <h2>Technischer Schaltplan</h2>
+                </div>
+                <div class="card__body">
+                    <div class="schematic-container">
+                        <img src="https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/28be678b84809fb7909e8763410b0ab8/bf1bd12b-49ca-42c6-8850-33959fd4c2a3/2c2889f0.png" alt="Coilgun Schaltplan" class="schematic-image">
+                        <p class="schematic-caption">Beispiel eines Schaltplans für eine einfache Coilgun mit Kondensatorbank und Thyristor-Schaltung</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© 2025 Coilgun-Rechner | Für Bildungs- und Forschungszwecke</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
